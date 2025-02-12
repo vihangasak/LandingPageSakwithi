@@ -1,5 +1,5 @@
 const themeColorData: string[] = [
-  '#3867d6',
+  '#fdbe04',
   '#d63031',
   '#8854d0',
   '#d63384',
