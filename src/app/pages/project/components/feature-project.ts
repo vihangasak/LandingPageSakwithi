@@ -5,11 +5,10 @@ import { NgClass } from '@angular/common';
 import { Devicon } from '@shared/components/devicon/devicon';
 import { ZoomImageDirective } from '@shared/directives/zoom-image/zoom-image.directive';
 import { ImageSkeletonDirective } from '@core/directives/image-skeleton.directive'
-import { Loader } from '@shared/components/loader/loader';
 @Component({
   selector: 'feature-project',
   standalone: true,
-  imports: [ProjectLink, NgClass, Devicon, ImageSkeletonDirective, ZoomImageDirective, Loader],
+  imports: [ProjectLink, NgClass, Devicon, ImageSkeletonDirective, ZoomImageDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   template: `
@@ -45,7 +44,6 @@ import { Loader } from '@shared/components/loader/loader';
             }
       </div>
       }@placeholder {
-        <loader/>
       }
 `
 })

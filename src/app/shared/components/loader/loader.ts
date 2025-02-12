@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+/* import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'loader',
@@ -12,3 +12,4 @@ import { Component, ViewEncapsulation } from '@angular/core';
 })
 export class Loader {
 }
+ */

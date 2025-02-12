@@ -4,13 +4,12 @@ import { RouterLink } from '@angular/router';
 import { MetaService } from '@core/services/meta.service';
 import profileData from '@data/profile.data';
 import { ImageSkeletonDirective } from '@core/directives/image-skeleton.directive';
-import { Loader } from '@shared/components/loader/loader';
 @Component({
   selector: 'blog-page',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [RouterLink, ImageSkeletonDirective, Loader],
+  imports: [RouterLink, ImageSkeletonDirective],
   template: `
   <div class="container px-8 mx-auto xl:px-5">
   <div class="mx-auto max-w-screen-md">
@@ -34,7 +33,6 @@ import { Loader } from '@shared/components/loader/loader';
       }
     </div>
   }@placeholder {
-    <loader/>
   }
 `
 })

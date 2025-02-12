@@ -8,7 +8,7 @@ import  ProfileData from '@data/profile.data'
 import { ProfileSchema } from '@data/schema/profile.schema';
 import { Icon } from '@shared/components/icon/icon';
 import { file } from '@icon/solid.icon';
-import { Loader } from '@shared/components/loader/loader';
+
 @Component({
   selector: 'intro',
   template: `
@@ -37,7 +37,7 @@ import { Loader } from '@shared/components/loader/loader';
       </div>
     </section>
   `,
-  imports: [SocialLink, Button, ManSorrow, Icon, Loader],
+  imports: [SocialLink, Button, ManSorrow, Icon],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true

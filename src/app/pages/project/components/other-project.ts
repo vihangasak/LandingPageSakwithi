@@ -3,11 +3,10 @@ import { ProjectLink } from '@pages/project/components/project-link';
 import { Devicon } from '@shared/components/devicon/devicon';
 import { ProjectService } from '@pages/project/project.service';
 import { ImageSkeletonDirective } from '@core/directives/image-skeleton.directive';
-import { Loader } from '@shared/components/loader/loader';
 @Component({
   selector: 'other-project',
   standalone: true,
-  imports: [ProjectLink, Devicon, ImageSkeletonDirective, Loader],
+  imports: [ProjectLink, Devicon, ImageSkeletonDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   template: `
@@ -37,7 +36,9 @@ import { Loader } from '@shared/components/loader/loader';
     }
   </div>
   }@placeholder {
-    <loader/>
+    <div class="flex justify-center items-center h-48 w-full bg-gray-200 dark:bg-gray-800 rounded-lg animate-pulse">
+    <!-- Skeleton Loader -->
+  </div>
   }
 `
 })
