@@ -10,23 +10,23 @@ const expertiseAreaData: ExpertiseAreaSchema[] = [
   },
   {
     icon: api,
-    percent: '60%',
+    percent: '90%',
     name: 'API Development'
   },
   {
     icon: mobile,
-    percent: '70%',
-    name: 'Mobile Development'
+    percent: '90%',
+    name: 'Windows Development'
   },
   {
     icon: monitor,
-    percent: '30%',
+    percent: '60%',
     name: 'UX/UI Design'
   },
   {
     icon: speed,
     percent: '75%',
-    name: 'Performance Optimization'
+    name: 'SEO Optimization'
   },
   {
     icon: search,

@@ -1,117 +1,107 @@
-import { Injectable, OnDestroy, effect, inject, signal } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { environment } from '@env/environment';
-import { Observable, Subscription, catchError, interval, map, switchMap, tap } from 'rxjs';
-import { MusicTrack } from '@data/schema/spotify/music-track';
-import { Token } from '@data/schema/spotify/token';
-import { CurrentlyPlaying } from '@data/schema/spotify/currently-playing';
-import { RecentlyPlayed } from '@data/schema/spotify/recently-played';
-import { TrackItem } from '@data/schema/spotify/track-item';
+import { Injectable, signal } from '@angular/core';
+import { MusicTrack } from '@data/schema/spotify/music-track'; // Adjust the path if needed
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SpotifyService {
-  spotify = environment.spotify;
-  nowPlayingEndpoint = `${this.spotify.apiURL}me/player/currently-playing`;
-  recentlyPlayedEndpoint = `${this.spotify.apiURL}me/player/recently-played?limit=1`;
-  apiTokenEndpoint = 'https://accounts.spotify.com/api/token';
+  music = signal<MusicTrack | null>(null); // Signal to hold the currently playing song
+  progressTime = signal<number>(0); // Signal to track progress time
+  totalDuration = signal<number>(0); // Signal to track total duration
 
-  http = inject(HttpClient);
-  music = signal<MusicTrack | null>(null);
-  progressTime = signal<number>(0);
-  totalDuration = signal<number>(0);
-  playSubs!: Subscription | null;
+  private songs: MusicTrack[] = []; // Array to hold all songs
+  private currentIndex = 0; // Index of the currently playing song
 
   constructor() {
-    effect(() => {
-      this.nowPlaying();
-    });
+    this.loadStaticSongs();
   }
 
-  accessToken(): Observable<Token> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization': `Basic ${btoa(`${this.spotify.clientId}:${this.spotify.clientSecret}`)}`
-    });
-    const params = new HttpParams({
-      fromObject: {
-        'grant_type': 'refresh_token',
-        'refresh_token': this.spotify.clientRefreshToken
-      }
-    });
-    return this.http.post<Token>(this.apiTokenEndpoint, params, { headers });
+  loadStaticSongs(): void {
+    // Hardcoded data for two Coldplay songs
+    this.songs = [
+      {
+        track: {
+          name: 'Yellow',
+          artist: 'Coldplay',
+          url: 'https://open.spotify.com/track/3zqEf2yZwYgkx81uQ6Z7Jh', // Example URL
+          image: {
+            url: 'https://upload.wikimedia.org/wikipedia/en/9/9b/Yellow_cover_art.JPG', // Example image URL
+            height: 64,
+            width: 64,
+          },
+        },
+        playedAt: new Date().toISOString(),
+        isPlaying: true, // Simulate "Now Playing"
+        progressTime: 30000, // Simulate progress (30 seconds)
+        durationTime: 230000, // Duration in milliseconds (example: 3 minutes 50 seconds)
+      },
+      {
+        track: {
+          name: 'Fix You',
+          artist: 'Coldplay',
+          url: 'https://open.spotify.com/track/1WlXtRlzxb0cL1FGmgVHvZ', // Example URL
+          image: {
+            url: 'https://upload.wikimedia.org/wikipedia/en/b/b1/Coldplay_-_Fix_You.jpg', // Example image URL
+            height: 64,
+            width: 64,
+          },
+        },
+        playedAt: new Date().toISOString(),
+        isPlaying: false, // Simulate "Recently Played"
+        progressTime: 0,
+        durationTime: 290000, // Duration in milliseconds (example: 4 minutes 50 seconds)
+      },
+    ];
+
+    // Set the first song as the currently playing song
+    this.setCurrentSong(0);
   }
 
-  fetchTrackData(endpoint: string): Observable<MusicTrack> {
-    return this.accessToken().pipe(switchMap(res => {
-      const headers = new HttpHeaders({
-        'Authorization': `Bearer ${res.access_token}`
-      });
-      return this.http.get<RecentlyPlayed | CurrentlyPlaying>(endpoint, { headers }).pipe(map(res => {
-        const hasItem = 'item' in res;
-        return {
-          track: this.mapTrackData(hasItem ? res.item : res.items[0].track),
-          playedAt: hasItem ? (res.is_playing ? null: new Date().toISOString()) : res.items[0].played_at,
-          isPlaying: hasItem ? res.is_playing : false,
-          progressTime: hasItem ? res.progress_ms : 0,
-          durationTime: hasItem ? res.item.duration_ms : res.items[0].track.duration_ms
-        } as MusicTrack;
-      }));
-    }));
-  }
+  setCurrentSong(index: number): void {
+    const song = this.songs[index];
+    if (song) {
+      this.music.set(song);
+      this.progressTime.set(song.progressTime);
+      this.totalDuration.set(song.durationTime);
 
-  nowPlaying(): void {
-    this.fetchTrackData(this.nowPlayingEndpoint).pipe(
-      catchError(() => this.fetchTrackData(this.recentlyPlayedEndpoint))
-    ).subscribe(playedResult => {
-      const { progressTime , durationTime, isPlaying } = playedResult;
-      this.music.set(playedResult)
-      if(isPlaying){
-        this.progressTime.set(progressTime);
-        this.startProgressTracking(isPlaying);
-      }else{
-        this.progressTime.set(durationTime);
-      }
-      this.totalDuration.set(durationTime);
-    });
-  }
-
-  startProgressTracking(isPlaying: boolean): void {
-    const stopPlayInterval = () => {
-      if (this.playSubs) {
-        this.playSubs.unsubscribe();
-        this.playSubs = null;
-      }
+      // Start simulating progress for the new song
+      this.startProgressTracking();
     }
-    if (isPlaying) {
-      this.playSubs = interval(1000).subscribe(() => {
+  }
+
+  startProgressTracking(): void {
+    setInterval(() => {
+      const currentSong = this.music();
+      if (currentSong && currentSong.isPlaying) {
         const currentProgress = this.progressTime() + 1000;
         if (currentProgress < this.totalDuration()) {
           this.progressTime.set(currentProgress);
         } else {
-          stopPlayInterval();
-          this.nowPlaying();
+          // Stop progress when the song ends
+          this.music.update((song) => {
+            if (song) {
+              return { ...song, isPlaying: false }; // Mark the song as finished
+            }
+            return null;
+          });
+
+          // Move to the next song
+          this.playNextSong();
         }
-      });
-    } else {
-      stopPlayInterval();
-    }
+      }
+    }, 1000);
   }
 
-  mapTrackData(track: TrackItem): MusicTrack['track'] | null {
-    if (!track) return null;
-    const preAlbumImage = track.album.images.pop();
-    const albumImage = track.album.images.pop() || preAlbumImage;
-    return {
-      name: track.name,
-      artist: track.artists.map(artist => artist.name).join(', '),
-      url: track.external_urls.spotify,
-      image: albumImage ? {
-        url: albumImage.url || '',
-        height: Math.min(albumImage.height || 78, 78),
-        width: Math.min(albumImage.width || 78, 78),
-      } : undefined,
-    };
+  playNextSong(): void {
+    const nextIndex = this.currentIndex + 1;
+    if (nextIndex < this.songs.length) {
+      this.currentIndex = nextIndex;
+      this.setCurrentSong(nextIndex);
+    } else {
+      // If there are no more songs, stop playback
+      this.music.set(null);
+      this.progressTime.set(0);
+      this.totalDuration.set(0);
+    }
   }
 }

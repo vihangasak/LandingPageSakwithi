@@ -30,21 +30,22 @@ export class ProjectPage {
   metaService = inject(MetaService);
   constructor() {
     this.metaService.setMetaTags(
-      `Projects - ${profileData.name}`,
-      `Projects made by ${profileData.name}. Get to know all the sources.`,
+      `Home - ${profileData.name}`,
+      'Dive into my portfolio, a passionate software engineer based in the Sri Lanka. Explore the intricacies of my journey, from personal details to exciting projects. Join me on this virtual exploration of technology, creativity, and more.',
       [
-        'tech',
-        'software',
-        'development',
-        'project',
+        'nimsara vihanga sakwithi',
+        'vihanga sakwithi',
+        'nimsaravihangasakwithi',
+        'software engineer',
+        'srilanka',
+        'bio',
+        'developer',
         'portfolio',
-        'app',
-        'programming',
-        'open-source',
-        'web',
+        'development',
         'android',
-        'ios'
+        'web',
+        'ios',
       ]
-    )
+    );
   }
 }

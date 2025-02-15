@@ -41,9 +41,22 @@ export class BlogPage {
   metaService = inject(MetaService)
   constructor(){
     this.metaService.setMetaTags(
-      `Blogs - ${profileData.name}`,
-      `Blog posts by ${profileData.name}. I share some guide, tutorials and information about software development`,
-      'tech,software,development,thoughts,blog,content,news,tutorials,guide,post'
-      )
+      `Home - ${profileData.name}`,
+      'Dive into my portfolio, a passionate software engineer based in the Sri Lanka. Explore the intricacies of my journey, from personal details to exciting projects. Join me on this virtual exploration of technology, creativity, and more.',
+      [
+        'nimsara vihanga sakwithi',
+        'vihanga sakwithi',
+        'nimsaravihangasakwithi',
+        'software engineer',
+        'srilanka',
+        'bio',
+        'developer',
+        'portfolio',
+        'development',
+        'android',
+        'web',
+        'ios',
+      ]
+    );
   }
 }

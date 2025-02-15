@@ -11,9 +11,9 @@ import { Watch } from '@shared/components/watch/watch'
   <section class="flex flex-col max-w-screen-lg justify-between mx-auto gap-16 dark:text-gray-200 overflow-y-hidden">
   <div class="flex flex-col gap-5">
       <h1 class="text-2xl font-semibold dark:text-white">About Me</h1>
-      <p class="justify-start">I'm Marc Kevin Flores, a software
+      <p class="justify-start">I'm VIHANGA, a software
         engineer with over
-        five years of
+        one+ years of
         experience. I specialize in turning
         ideas into polished software, blending innovation with user-friendly design. 🚀</p>
       <p *ngFor="let a of aboutDetails"><b class="dark:text-white text-black">{{a.title}}</b><br />{{a.desc}}
@@ -47,16 +47,29 @@ export class AboutPage{
   traktTvService = inject(TraktTvService)
   constructor(){
     this.metaService.setMetaTags(
-      `About - ${profileData.name}`,
-      'Dive into a curated space to learn more about the person behind the name',
-      ['bio', 'biography', 'information', 'about', 'contact', 'detail']
-      )
+      `Home - ${profileData.name}`,
+      'Dive into my portfolio, a passionate software engineer based in the Sri Lanka. Explore the intricacies of my journey, from personal details to exciting projects. Join me on this virtual exploration of technology, creativity, and more.',
+      [
+        'nimsara vihanga sakwithi',
+        'vihanga sakwithi',
+        'nimsaravihangasakwithi',
+        'software engineer',
+        'srilanka',
+        'bio',
+        'developer',
+        'portfolio',
+        'development',
+        'android',
+        'web',
+        'ios',
+      ]
+    );
   }
   public aboutDetails =  [
     {
       title: 'What I Do',
       desc: `I've worked on a variety of projects, ranging from
-      mobile apps and web development to optimizing performance, writing clean code, and emphasizing good design
+      windows apps and web development to optimizing performance, writing clean code, and emphasizing good design
       principles. I take pride in my attention to detail and commitment to creating efficient, well-designed solutions
       that meet both user needs and industry standards. I'm your go-to person for JavaScript frameworks and ensuring
       the overall quality of software development projects.`
@@ -65,12 +78,12 @@ export class AboutPage{
       title: 'Always Learning',
       desc: `I'm always eager to learn new things. Whether
       it's staying updated on the latest technologies or exploring different coding techniques, I enjoy expanding my
-      knowledge to grow as a developer.`
+      knowledge to grow as a full stack developer.`
     },
     {
       title: 'Off-Duty Fun',
       desc: `During my off-duty hours, I find joy in coding, exploring new aspects of coding, and staying updated by reading
-      the latest blogs on technology. I also enjoy playing games on my phone, watching videos, listening to popular
+      the latest blogs on technology. I also enjoy playing games on my desktop, watching movies & series, listening to popular
       songs, and taking refreshing walks outside. It's important for me to spend quality time with my family and
       friends.`
     },
@@ -85,18 +98,18 @@ export class AboutPage{
   public contactInfo = [
     {
       title: 'Address',
-      desc: `Caloocan City, Metro Manila, Philippines`,
-      link: 'https://maps.app.goo.gl/dT2aE2RxeQTEA7ne7'
+      desc: `Pannipitiya, Colombo, Sri Lanka`,
+      link: 'https://maps.app.goo.gl/xWCUPTTKnGQdGfrr9'
     },
     {
       title: 'Mobile Number',
-      desc: '+639092884082',
-      link: 'tel:+639092884082'
+      desc: '+94 76 705 9866',
+      link: 'tel:+94767059866'
     },
     {
       title: 'Email',
-      desc: 'marc@kevinflor.es',
-      link: 'mailto:marc@kevinflor.es'
+      desc: 'hello@sakwithi.xyz',
+      link: 'mailto:hello@sakwithi.xyz'
     }
   ]
 }

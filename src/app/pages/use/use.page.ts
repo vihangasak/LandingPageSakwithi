@@ -16,7 +16,7 @@ import { Logo } from '@shared/components/logo/logo';
     <p class="dark:text-white text-black">
       This website is created with Angular and Tailwind CSS. It's hosted on AWS
       S3, and if you're curious, feel free to explore the source code on
-      <a class="underline" href="https://github.com/marckevinflores/kevinflor.es" target="_blank"
+      <a class="underline" href="https://github.com/vihangasak/" target="_blank"
         >GitHub</a
       >.
     </p>
@@ -81,14 +81,14 @@ export class UsePage {
   metaService = inject(MetaService)
   constructor(){
     this.metaService.setMetaTags(
-      `Uses - ${profileData.name}`,
-      'Dive into my portfolio, a passionate software engineer based in the Philippines. Explore the intricacies of my journey, from personal details to exciting projects. Join me on this virtual exploration of technology, creativity, and more.',
+      `Home - ${profileData.name}`,
+      'Dive into my portfolio, a passionate software engineer based in the Sri Lanka. Explore the intricacies of my journey, from personal details to exciting projects. Join me on this virtual exploration of technology, creativity, and more.',
       [
-        'marc kevin flores',
-        'marc kevin',
-        'marckevinflores',
+        'nimsara vihanga sakwithi',
+        'vihanga sakwithi',
+        'nimsaravihangasakwithi',
         'software engineer',
-        'philippines',
+        'srilanka',
         'bio',
         'developer',
         'portfolio',
